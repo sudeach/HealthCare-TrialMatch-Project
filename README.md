@@ -6,12 +6,12 @@ patient's live vitals stream, detects clinically meaningful deterioration,
 and **automatically re-evaluates trial eligibility** when it does — with
 every decision traced back to the exact data field that justified it.
 
-> ## ⚠️ Important disclaimer — read this first
+> ## ⚠️ Important disclaimer - read this first
 > This project uses **100% synthetic, programmatically generated data**.
 > No real patient data, real trial protocols, or real clinical datasets are
 > used anywhere in this repository. The early-warning scoring logic is a
 > **simplified, non-validated reimplementation** loosely inspired by the
-> structure of NEWS2 (a real clinical deterioration score) — it has not
+> structure of NEWS2 (a real clinical deterioration score) - it has not
 > been clinically validated and must never be used for real patient care,
 > real trial enrollment, or any other clinical decision. This is a software
 > architecture and systems-design portfolio project, not a medical device,
@@ -28,7 +28,7 @@ TrialWatch is built around three things that real trial operations
 actually need but that single-shot matchers don't address:
 
 1. **Continuous re-evaluation, not a one-time screen.** Patient state
-   changes — a trial protocol's exclusion criteria (e.g. "not in acute
+   changes - a trial protocol's exclusion criteria (e.g. "not in acute
    decompensation") can flip from "met" to "violated" mid-monitoring. A
    static screen run once at intake has no way to catch that.
 2. **Deterioration-triggered, not poll-triggered.** Re-checking eligibility
@@ -76,15 +76,15 @@ SyntheticDataGenerator ──► PatientRecord (vitals stream, labs, conditions)
 ```
 
 Key files:
-- `trialwatch/models.py` — PatientRecord, TrialCriterion, EvidenceRef, AuditEvent
-- `trialwatch/early_warning.py` — NEWS2-inspired deterioration scoring + trend detection
-- `trialwatch/criteria/library.py` — structured, cited eligibility criteria (age, labs, conditions, live risk state)
-- `trialwatch/eligibility.py` — runs all criteria for a trial against a patient
+- `trialwatch/models.py` - PatientRecord, TrialCriterion, EvidenceRef, AuditEvent
+- `trialwatch/early_warning.py` - NEWS2-inspired deterioration scoring + trend detection
+- `trialwatch/criteria/library.py` - structured, cited eligibility criteria (age, labs, conditions, live risk state)
+- `trialwatch/eligibility.py` - runs all criteria for a trial against a patient
 - `trialwatch/agent.py` — orchestrates monitoring → deterioration detection → re-matching → audit log
-- `trialwatch/synthetic_data.py` — fully fabricated patient/vitals generator
-- `trialwatch/sample_trials.py` — example synthetic trial protocols
+- `trialwatch/synthetic_data.py` - fully fabricated patient/vitals generator
+- `trialwatch/sample_trials.py` - example synthetic trial protocols
 - `eval/run_eval.py` — population-level evaluation (see results below)
-- `tests/test_trialwatch.py` — unit tests covering scoring, criteria, and agent behavior
+- `tests/test_trialwatch.py` - unit tests covering scoring, criteria, and agent behavior
 
 ## Evaluation results
 
@@ -139,7 +139,7 @@ python -m pytest tests/ -v
   the standard approach in most trial-matching demos, and it's exactly the
   part that's hardest to audit or trust at the threshold an IRB or sponsor
   would require. Here, an LLM could be used *upstream* to parse a written
-  protocol into structured `TrialCriterion` objects — but the eligibility
+  protocol into structured `TrialCriterion` objects - but the eligibility
   *decision itself* is a deterministic, testable function with a citation.
   That's a real, defensible boundary: use the LLM for language understanding,
   not for the safety-critical judgment call.
@@ -150,7 +150,7 @@ python -m pytest tests/ -v
   and more aligned with how real early-warning systems are designed to behave.
 - **Why pre-screen the eval population by condition instead of using a
   uniform random population?** A uniform random population isn't how trial
-  recruitment actually works — patients are referred because they plausibly
+  recruitment actually works - patients are referred because they plausibly
   match. Evaluating against a referred-style population produces a baseline
   eligible rate that's realistic enough to make the deterioration-detection
   numbers meaningful rather than trivially rare.
@@ -170,5 +170,5 @@ python -m pytest tests/ -v
   text into `TrialCriterion` objects (keeping the evaluation itself
   structured, per the design decision above).
 - Swap `synthetic_data.py` for a real FHIR/Synthea-based generator if you
-  want closer-to-real-world data shapes — still synthetic, still safe to
+  want closer-to-real-world data shapes - still synthetic, still safe to
   publish.
